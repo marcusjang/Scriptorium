@@ -62,6 +62,7 @@ jobs:
       - name: ⚙️ Build app with Meson
         run: |
           export DYLD_LIBRARY_PATH="/opt/homebrew/lib:$DYLD_LIBRARY_PATH"
+          export PYTHONPATH="${PWD}/subprojects/blueprint-compiler:$PYTHONPATH"
           meson setup builddir --prefix=${PWD}/install
           meson compile -C builddir
           meson install -C builddir
