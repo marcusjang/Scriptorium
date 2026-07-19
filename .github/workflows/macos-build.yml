@@ -35,6 +35,14 @@ jobs:
         run: |
           brew install gtk4 libadwaita glib gobject-introspection meson ninja create-dmg git desktop-file-utils
 
+      - name: 📦 Install Blueprint Compiler
+        run: |
+          git clone https://gitlab.gnome.org/GNOME/blueprint-compiler
+          cd blueprint-compiler
+          meson setup _build
+          ninja -C _build
+          ninja -C _build install
+
       - name: 🐍 Set up Python
         uses: actions/setup-python@v5
         with:
@@ -44,14 +52,6 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install pyinstaller PyGObject
-
-      - name: 📦 Install Blueprint Compiler
-        run: |
-          git clone https://gitlab.gnome.org/GNOME/blueprint-compiler
-          cd blueprint-compiler
-          meson setup _build
-          ninja -C _build
-          ninja -C _build install
 
       - name: ⚙️ Build app with Meson
         run: |
