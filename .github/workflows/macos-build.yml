@@ -35,13 +35,19 @@ jobs:
         run: |
           brew install gtk4 libadwaita glib gobject-introspection meson ninja create-dmg git desktop-file-utils
 
-      - name: 📦 Install Blueprint Compiler
+      - name: 📦 Configure Blueprint Compiler as Meson subproject
         run: |
-          git clone https://gitlab.gnome.org/GNOME/blueprint-compiler
-          cd blueprint-compiler
-          meson setup _build --python.install-env=system
-          ninja -C _build
-          ninja -C _build install
+          mkdir -p subprojects
+          cat > subprojects/blueprint-compiler.wrap << 'EOF'
+          [wrap-git]
+          directory = blueprint-compiler
+          url = https://gitlab.gnome.org/GNOME/blueprint-compiler.git
+          revision = main
+          depth = 1
+
+          [provide]
+          program_names = blueprint-compiler
+          EOF
 
       - name: 🐍 Set up Python
         uses: actions/setup-python@v5
